@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Form Validation</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="back_to_login">Back To Login</string>
+    <string name="full_name">Full Name</string>
+
+    <string name="validate_email_empty">email is empty</string>
+    <string name="validate_email_not_valid">email is not valid</string>
+    <string name="validate_full_name_empty">full name is empty</string>
+    <string name="validate_full_name_not_valid">full name is not valid</string>
+    <string name="validate_password_empty">password is empty</string>
+    <string name="validate_password_min">password minimal %1$d character</string>
+    <string name="validate_confirm_password_empty">confirm password is empty</string>
+    <string name="validate_confirm_password_min">confirm password minimal %1$d character</string>
+    <string name="validate_confirm_password_not_match">confirm password is not match</string>
 </resources>
