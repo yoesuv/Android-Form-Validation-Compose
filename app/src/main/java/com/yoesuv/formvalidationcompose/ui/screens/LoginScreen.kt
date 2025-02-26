@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.yoesuv.formvalidationcompose.R
@@ -35,12 +36,11 @@ import com.yoesuv.formvalidationcompose.utils.validateEmail
 import com.yoesuv.formvalidationcompose.utils.validatePassword
 
 @Composable
-fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = LoginViewModel()) {
+fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel()) {
 
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
-//    val isValid = email.validateEmail(LocalContext.current).isValid &&
-//            password.validatePassword(LocalContext.current).isValid
+    val isValid by viewModel.isValid.collectAsState()
 
     Scaffold(
         topBar = {
@@ -81,7 +81,7 @@ fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = LoginViewMod
                     }
                 },
                 shape = RoundedCornerShape(8.dp),
-                enabled = true
+                enabled = isValid
             ) {
                 Text(
                     text = stringResource(id = R.string.login).uppercase(),
