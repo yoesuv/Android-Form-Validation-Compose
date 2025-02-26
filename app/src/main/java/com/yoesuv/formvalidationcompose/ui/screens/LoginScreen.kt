@@ -12,10 +12,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,12 +35,12 @@ import com.yoesuv.formvalidationcompose.utils.validateEmail
 import com.yoesuv.formvalidationcompose.utils.validatePassword
 
 @Composable
-fun LoginScreen(nav: NavHostController) {
+fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = LoginViewModel()) {
 
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    val isValid = email.validateEmail(LocalContext.current).isValid &&
-            password.validatePassword(LocalContext.current).isValid
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+//    val isValid = email.validateEmail(LocalContext.current).isValid &&
+//            password.validatePassword(LocalContext.current).isValid
 
     Scaffold(
         topBar = {
@@ -58,7 +56,7 @@ fun LoginScreen(nav: NavHostController) {
             Text(text = stringResource(id = R.string.email), fontSize = 14.sp)
             AppBasicField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = { viewModel.updateEmail(it) },
                 errorMessage = email.validateEmail(LocalContext.current).message,
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email
@@ -67,7 +65,7 @@ fun LoginScreen(nav: NavHostController) {
             Text(text = stringResource(id = R.string.password), fontSize = 14.sp)
             AppPasswordFeld(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = { viewModel.updatePassword(it) },
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
                 errorMessage = password.validatePassword(LocalContext.current).message
@@ -83,7 +81,7 @@ fun LoginScreen(nav: NavHostController) {
                     }
                 },
                 shape = RoundedCornerShape(8.dp),
-                enabled = isValid
+                enabled = true
             ) {
                 Text(
                     text = stringResource(id = R.string.login).uppercase(),
