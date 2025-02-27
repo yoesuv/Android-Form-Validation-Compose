@@ -42,6 +42,7 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     val confirmPassword by viewModel.confirmPassword.collectAsState()
+    val isValid by viewModel.isValid.collectAsState()
 
     Scaffold(
         topBar = {
@@ -92,7 +93,7 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(
-                enabled = true,
+                enabled = isValid,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     nav.navigate(AppRoute.Home) {
