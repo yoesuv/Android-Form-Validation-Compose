@@ -27,8 +27,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun validateLogin(email: String, password: String) {
-        _isValid.value = email.validateEmail(getApplication()).isValid &&
-                password.validatePassword(getApplication()).isValid
-
+        val app = getApplication<Application>()
+        val vEmail = email.validateEmail(app).isValid
+        val vPassword = password.validatePassword(app).isValid
+        _isValid.value = vEmail && vPassword
     }
 }

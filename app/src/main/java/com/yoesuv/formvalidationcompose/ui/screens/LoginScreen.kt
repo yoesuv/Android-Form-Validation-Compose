@@ -38,6 +38,7 @@ import com.yoesuv.formvalidationcompose.utils.validatePassword
 @Composable
 fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel()) {
 
+    val mContext = LocalContext.current
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     val isValid by viewModel.isValid.collectAsState()
@@ -57,7 +58,7 @@ fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel())
             AppBasicField(
                 value = email,
                 onValueChange = { viewModel.updateEmail(it) },
-                errorMessage = email.validateEmail(LocalContext.current).message,
+                errorMessage = email.validateEmail(mContext).message,
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email
             )
@@ -68,7 +69,7 @@ fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel())
                 onValueChange = { viewModel.updatePassword(it) },
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
-                errorMessage = password.validatePassword(LocalContext.current).message
+                errorMessage = password.validatePassword(mContext).message
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(

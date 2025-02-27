@@ -45,10 +45,11 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     private fun validateRegister(
         fullName: String, email: String, password: String, confirmPassword: String
     ) {
-        val vFullName = fullName.validateFullName(getApplication()).isValid
-        val vEmail = email.validateEmail(getApplication()).isValid
-        val vPassword = password.validatePassword(getApplication()).isValid
-        val vConfirm = confirmPassword.validateConfirmPassword(getApplication(), password).isValid
+        val app = getApplication<Application>()
+        val vFullName = fullName.validateFullName(app).isValid
+        val vEmail = email.validateEmail(app).isValid
+        val vPassword = password.validatePassword(app).isValid
+        val vConfirm = confirmPassword.validateConfirmPassword(app, password).isValid
         _isValid.value = vFullName && vEmail && vPassword && vConfirm
     }
 
