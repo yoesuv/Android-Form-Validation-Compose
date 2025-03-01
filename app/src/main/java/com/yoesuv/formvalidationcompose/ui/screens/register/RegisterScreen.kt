@@ -1,7 +1,5 @@
-package com.yoesuv.formvalidationcompose.ui.screens
+package com.yoesuv.formvalidationcompose.ui.screens.register
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -32,20 +29,26 @@ import com.yoesuv.formvalidationcompose.ui.screens.components.AppBasicField
 import com.yoesuv.formvalidationcompose.ui.screens.components.AppPasswordFeld
 import com.yoesuv.formvalidationcompose.ui.screens.components.AppTopBar
 import com.yoesuv.formvalidationcompose.ui.theme.FormValidationTheme
+import com.yoesuv.formvalidationcompose.utils.validateConfirmPassword
 import com.yoesuv.formvalidationcompose.utils.validateEmail
+import com.yoesuv.formvalidationcompose.utils.validateFullName
 import com.yoesuv.formvalidationcompose.utils.validatePassword
 
 @Composable
-fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel()) {
+fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewModel()) {
 
     val mContext = LocalContext.current
+    val fullName by viewModel.fullName.collectAsState()
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
+    val confirmPassword by viewModel.confirmPassword.collectAsState()
     val isValid by viewModel.isValid.collectAsState()
 
     Scaffold(
         topBar = {
-            AppTopBar(title = stringResource(id = R.string.login), canBack = false)
+            AppTopBar(title = stringResource(id = R.string.register), canBack = true, navigateUp = {
+                nav.popBackStack()
+            })
         }
     ) { innerPadding ->
         Column(
@@ -54,6 +57,14 @@ fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel())
                 .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
+            Text(text = stringResource(id = R.string.full_name), fontSize = 14.sp)
+            AppBasicField(
+                value = fullName,
+                onValueChange = { viewModel.updateFullName(it) },
+                errorMessage = fullName.validateFullName(mContext).message,
+                imeAction = ImeAction.Next
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.email), fontSize = 14.sp)
             AppBasicField(
                 value = email,
@@ -67,12 +78,22 @@ fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel())
             AppPasswordFeld(
                 value = password,
                 onValueChange = { viewModel.updatePassword(it) },
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Password,
                 errorMessage = password.validatePassword(mContext).message
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = stringResource(id = R.string.confirm_password), fontSize = 14.sp)
+            AppPasswordFeld(
+                value = confirmPassword,
+                onValueChange = { viewModel.updateConfirmPassword(it) },
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password,
+                errorMessage = confirmPassword.validateConfirmPassword(mContext, password).message
+            )
             Spacer(modifier = Modifier.height(32.dp))
             Button(
+                enabled = isValid,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     nav.navigate(AppRoute.Home) {
@@ -81,31 +102,21 @@ fun LoginScreen(nav: NavHostController, viewModel: LoginViewModel = viewModel())
                         }
                     }
                 },
-                shape = RoundedCornerShape(8.dp),
-                enabled = isValid
+                shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.login).uppercase(),
+                    text = stringResource(id = R.string.register).uppercase(),
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = stringResource(id = R.string.register).uppercase(),
-                    modifier = Modifier.clickable {
-                        nav.navigate(AppRoute.Register)
-                    })
-            }
-            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LoginPreview() {
+fun RegisterPreview() {
     FormValidationTheme {
-        LoginScreen(rememberNavController())
+        RegisterScreen(rememberNavController())
     }
 }

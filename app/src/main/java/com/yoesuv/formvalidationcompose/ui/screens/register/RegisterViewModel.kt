@@ -1,4 +1,4 @@
-package com.yoesuv.formvalidationcompose.ui.screens
+package com.yoesuv.formvalidationcompose.ui.screens.register
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
