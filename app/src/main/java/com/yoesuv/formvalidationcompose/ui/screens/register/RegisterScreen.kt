@@ -1,4 +1,4 @@
-package com.yoesuv.formvalidationcompose.ui.screens
+package com.yoesuv.formvalidationcompose.ui.screens.register
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,10 +10,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -22,6 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.yoesuv.formvalidationcompose.R
@@ -36,16 +35,14 @@ import com.yoesuv.formvalidationcompose.utils.validateFullName
 import com.yoesuv.formvalidationcompose.utils.validatePassword
 
 @Composable
-fun RegisterScreen(nav: NavHostController) {
+fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewModel()) {
 
-    var fullName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    val isValid = fullName.validateFullName(LocalContext.current).isValid &&
-            email.validateEmail(LocalContext.current).isValid &&
-            password.validatePassword(LocalContext.current).isValid &&
-            confirmPassword.validateConfirmPassword(LocalContext.current, password).isValid
+    val mContext = LocalContext.current
+    val fullName by viewModel.fullName.collectAsState()
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val confirmPassword by viewModel.confirmPassword.collectAsState()
+    val isValid by viewModel.isValid.collectAsState()
 
     Scaffold(
         topBar = {
@@ -63,16 +60,16 @@ fun RegisterScreen(nav: NavHostController) {
             Text(text = stringResource(id = R.string.full_name), fontSize = 14.sp)
             AppBasicField(
                 value = fullName,
-                onValueChange = { fullName = it },
-                errorMessage = fullName.validateFullName(LocalContext.current).message,
+                onValueChange = { viewModel.updateFullName(it) },
+                errorMessage = fullName.validateFullName(mContext).message,
                 imeAction = ImeAction.Next
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.email), fontSize = 14.sp)
             AppBasicField(
                 value = email,
-                onValueChange = { email = it },
-                errorMessage = email.validateEmail(LocalContext.current).message,
+                onValueChange = { viewModel.updateEmail(it) },
+                errorMessage = email.validateEmail(mContext).message,
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email
             )
@@ -80,19 +77,19 @@ fun RegisterScreen(nav: NavHostController) {
             Text(text = stringResource(id = R.string.password), fontSize = 14.sp)
             AppPasswordFeld(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = { viewModel.updatePassword(it) },
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Password,
-                errorMessage = password.validatePassword(LocalContext.current).message
+                errorMessage = password.validatePassword(mContext).message
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.confirm_password), fontSize = 14.sp)
             AppPasswordFeld(
                 value = confirmPassword,
-                onValueChange = { confirmPassword = it },
+                onValueChange = { viewModel.updateConfirmPassword(it) },
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
-                errorMessage = confirmPassword.validateConfirmPassword(LocalContext.current, password).message
+                errorMessage = confirmPassword.validateConfirmPassword(mContext, password).message
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(

@@ -8,9 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.yoesuv.formvalidationcompose.ui.route.AppRoute
-import com.yoesuv.formvalidationcompose.ui.screens.HomeScreen
-import com.yoesuv.formvalidationcompose.ui.screens.LoginScreen
-import com.yoesuv.formvalidationcompose.ui.screens.RegisterScreen
+import com.yoesuv.formvalidationcompose.ui.screens.home.HomeScreen
+import com.yoesuv.formvalidationcompose.ui.screens.login.LoginScreen
+import com.yoesuv.formvalidationcompose.ui.screens.register.RegisterScreen
 import com.yoesuv.formvalidationcompose.ui.theme.FormValidationTheme
 
 class MainActivity : ComponentActivity() {

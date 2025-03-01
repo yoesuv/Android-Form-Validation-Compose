@@ -1,4 +1,4 @@
-package com.yoesuv.formvalidationcompose.ui.screens
+package com.yoesuv.formvalidationcompose.ui.screens.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
