@@ -26,17 +26,18 @@ fun AppBasicField(
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = imeAction,
-                keyboardType = keyboardType
-            )
+            keyboardOptions =
+                KeyboardOptions(
+                    imeAction = imeAction,
+                    keyboardType = keyboardType,
+                ),
         )
     }
     if (value.isNotEmpty() && errorMessage.isNotEmpty()) {
         Text(
             text = errorMessage,
             color = Color.Red,
-            fontSize = 12.sp
+            fontSize = 12.sp,
         )
     }
 }

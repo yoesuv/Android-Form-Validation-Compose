@@ -35,8 +35,10 @@ import com.yoesuv.formvalidationcompose.utils.validateFullName
 import com.yoesuv.formvalidationcompose.utils.validatePassword
 
 @Composable
-fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewModel()) {
-
+fun RegisterScreen(
+    nav: NavHostController,
+    viewModel: RegisterViewModel = viewModel(),
+) {
     val mContext = LocalContext.current
     val fullName by viewModel.fullName.collectAsState()
     val email by viewModel.email.collectAsState()
@@ -49,12 +51,13 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
             AppTopBar(title = stringResource(id = R.string.register), canBack = true, navigateUp = {
                 nav.popBackStack()
             })
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = stringResource(id = R.string.full_name), fontSize = 14.sp)
@@ -62,7 +65,7 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
                 value = fullName,
                 onValueChange = { viewModel.updateFullName(it) },
                 errorMessage = fullName.validateFullName(mContext).message,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.email), fontSize = 14.sp)
@@ -71,7 +74,7 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
                 onValueChange = { viewModel.updateEmail(it) },
                 errorMessage = email.validateEmail(mContext).message,
                 imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Email,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.password), fontSize = 14.sp)
@@ -80,7 +83,7 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
                 onValueChange = { viewModel.updatePassword(it) },
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Password,
-                errorMessage = password.validatePassword(mContext).message
+                errorMessage = password.validatePassword(mContext).message,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.confirm_password), fontSize = 14.sp)
@@ -89,7 +92,7 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
                 onValueChange = { viewModel.updateConfirmPassword(it) },
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
-                errorMessage = confirmPassword.validateConfirmPassword(mContext, password).message
+                errorMessage = confirmPassword.validateConfirmPassword(mContext, password).message,
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(
@@ -102,11 +105,11 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
                         }
                     }
                 },
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.register).uppercase(),
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
         }

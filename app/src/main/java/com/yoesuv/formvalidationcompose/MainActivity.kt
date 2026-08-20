@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = AppRoute.Login
+                    startDestination = AppRoute.Login,
                 ) {
                     composable<AppRoute.Login> {
                         LoginScreen(navController)

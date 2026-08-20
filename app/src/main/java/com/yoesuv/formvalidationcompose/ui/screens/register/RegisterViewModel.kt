@@ -9,8 +9,9 @@ import com.yoesuv.formvalidationcompose.utils.validatePassword
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class RegisterViewModel(application: Application) : AndroidViewModel(application) {
-
+class RegisterViewModel(
+    application: Application,
+) : AndroidViewModel(application) {
     private val _fullName = MutableStateFlow("")
     val fullName: StateFlow<String> = _fullName
     private val _email = MutableStateFlow("")
@@ -43,7 +44,10 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun validateRegister(
-        fullName: String, email: String, password: String, confirmPassword: String
+        fullName: String,
+        email: String,
+        password: String,
+        confirmPassword: String,
     ) {
         val app = getApplication<Application>()
         val vFullName = fullName.validateFullName(app).isValid
@@ -52,5 +56,4 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         val vConfirm = confirmPassword.validateConfirmPassword(app, password).isValid
         _isValid.value = vFullName && vEmail && vPassword && vConfirm
     }
-
 }

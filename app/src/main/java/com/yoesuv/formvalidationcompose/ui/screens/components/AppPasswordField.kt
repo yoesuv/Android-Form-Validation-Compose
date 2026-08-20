@@ -33,7 +33,6 @@ fun AppPasswordFeld(
     keyboardType: KeyboardType = KeyboardType.Text,
     errorMessage: String = "",
 ) {
-
     var showPassword by remember { mutableStateOf(false) }
 
     Column {
@@ -42,15 +41,18 @@ fun AppPasswordFeld(
             modifier = Modifier.fillMaxWidth(),
             onValueChange = onValueChange,
             singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = imeAction,
-                keyboardType = keyboardType
-            ),
-            visualTransformation = if (showPassword) {
-                VisualTransformation.None
-            } else {
-                PasswordVisualTransformation()
-            }, trailingIcon = {
+            keyboardOptions =
+                KeyboardOptions(
+                    imeAction = imeAction,
+                    keyboardType = keyboardType,
+                ),
+            visualTransformation =
+                if (showPassword) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
+            trailingIcon = {
                 if (showPassword) {
                     IconButton(onClick = { showPassword = false }) {
                         Icon(imageVector = Icons.Filled.Visibility, contentDescription = "Password")
@@ -60,17 +62,16 @@ fun AppPasswordFeld(
                         Icon(imageVector = Icons.Filled.VisibilityOff, contentDescription = "PasswordOff")
                     }
                 }
-            }
+            },
         )
         if (value.isNotEmpty() && errorMessage.isNotEmpty()) {
             Text(
                 text = errorMessage,
                 color = Color.Red,
-                fontSize = 12.sp
+                fontSize = 12.sp,
             )
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -79,7 +80,7 @@ fun AppPasswordPreview() {
     FormValidationTheme {
         AppPasswordFeld(
             "Admin1234#",
-            onValueChange = {}
+            onValueChange = {},
         )
     }
 }
