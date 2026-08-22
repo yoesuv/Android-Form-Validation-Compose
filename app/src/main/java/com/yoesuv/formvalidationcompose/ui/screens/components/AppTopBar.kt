@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yoesuv.formvalidationcompose.ui.theme.FormValidationTheme
 
@@ -25,14 +24,15 @@ private val fontWeight = FontWeight.SemiBold
 fun AppTopBar(
     title: String,
     canBack: Boolean = true,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
 ) {
     if (canBack) {
         TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = Color.White
-            ),
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White,
+                ),
             title = {
                 Text(text = title, fontSize = fontSize, fontWeight = fontWeight)
             },
@@ -41,20 +41,21 @@ fun AppTopBar(
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "action navigation",
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
-            }
+            },
         )
     } else {
         TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                titleContentColor = Color.White
-            ),
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White,
+                ),
             title = {
                 Text(text = title, fontSize = fontSize, fontWeight = fontWeight)
-            }
+            },
         )
     }
 }

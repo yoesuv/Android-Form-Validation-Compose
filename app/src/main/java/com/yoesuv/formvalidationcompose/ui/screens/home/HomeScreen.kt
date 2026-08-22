@@ -29,19 +29,20 @@ fun HomeScreen(nav: NavHostController) {
     Scaffold(
         topBar = {
             AppTopBar(title = stringResource(id = R.string.app_name), canBack = false)
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(id = R.string.home_screen),
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
@@ -57,7 +58,7 @@ fun HomeScreen(nav: NavHostController) {
             ) {
                 Text(
                     text = stringResource(id = R.string.back_to_login).uppercase(),
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
             Spacer(modifier = Modifier.weight(1f))

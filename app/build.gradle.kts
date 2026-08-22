@@ -1,40 +1,46 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    base
+}
+
+val appApplicationId = "com.yoesuv.formvalidationcompose"
+val appVersionName = "1.0.2"
+
+base {
+    archivesName = "$appApplicationId-v$appVersionName"
 }
 
 android {
-    namespace = "com.yoesuv.formvalidationcompose"
-    compileSdk = 35
+    namespace = appApplicationId
+    compileSdk {
+        version = release(37)
+    }
 
     defaultConfig {
-        applicationId = "com.yoesuv.formvalidationcompose"
+        applicationId = appApplicationId
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 1
-        versionName = "1.0.1"
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
-        setProperty("archivesBaseName", "$applicationId-v$versionCode($versionName)")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
     }
     buildFeatures {
         compose = true

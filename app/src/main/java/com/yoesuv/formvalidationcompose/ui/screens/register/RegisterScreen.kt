@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,71 +28,65 @@ import com.yoesuv.formvalidationcompose.ui.screens.components.AppBasicField
 import com.yoesuv.formvalidationcompose.ui.screens.components.AppPasswordFeld
 import com.yoesuv.formvalidationcompose.ui.screens.components.AppTopBar
 import com.yoesuv.formvalidationcompose.ui.theme.FormValidationTheme
-import com.yoesuv.formvalidationcompose.utils.validateConfirmPassword
-import com.yoesuv.formvalidationcompose.utils.validateEmail
-import com.yoesuv.formvalidationcompose.utils.validateFullName
-import com.yoesuv.formvalidationcompose.utils.validatePassword
 
 @Composable
-fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewModel()) {
-
-    val mContext = LocalContext.current
-    val fullName by viewModel.fullName.collectAsState()
-    val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
-    val confirmPassword by viewModel.confirmPassword.collectAsState()
-    val isValid by viewModel.isValid.collectAsState()
+fun RegisterScreen(
+    nav: NavHostController,
+    viewModel: RegisterViewModel = viewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             AppTopBar(title = stringResource(id = R.string.register), canBack = true, navigateUp = {
                 nav.popBackStack()
             })
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = stringResource(id = R.string.full_name), fontSize = 14.sp)
             AppBasicField(
-                value = fullName,
+                value = uiState.fullName,
                 onValueChange = { viewModel.updateFullName(it) },
-                errorMessage = fullName.validateFullName(mContext).message,
-                imeAction = ImeAction.Next
+                errorMessage = uiState.fullNameError,
+                imeAction = ImeAction.Next,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.email), fontSize = 14.sp)
             AppBasicField(
-                value = email,
+                value = uiState.email,
                 onValueChange = { viewModel.updateEmail(it) },
-                errorMessage = email.validateEmail(mContext).message,
+                errorMessage = uiState.emailError,
                 imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Email,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.password), fontSize = 14.sp)
             AppPasswordFeld(
-                value = password,
+                value = uiState.password,
                 onValueChange = { viewModel.updatePassword(it) },
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Password,
-                errorMessage = password.validatePassword(mContext).message
+                errorMessage = uiState.passwordError,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(id = R.string.confirm_password), fontSize = 14.sp)
             AppPasswordFeld(
-                value = confirmPassword,
-                onValueChange = { viewModel.updateConfirmPassword(it) },
+                value = uiState.confirmPassword,
+                onValueChange = viewModel::updateConfirmPassword,
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Password,
-                errorMessage = confirmPassword.validateConfirmPassword(mContext, password).message
+                errorMessage = uiState.confirmPasswordError,
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(
-                enabled = isValid,
+                enabled = uiState.isValid,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     nav.navigate(AppRoute.Home) {
@@ -102,11 +95,11 @@ fun RegisterScreen(nav: NavHostController, viewModel: RegisterViewModel = viewMo
                         }
                     }
                 },
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.register).uppercase(),
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
             }
         }
